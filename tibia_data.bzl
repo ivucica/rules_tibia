@@ -1,9 +1,11 @@
 # -*- mode: python; -*-
 # vim: set syntax=python:
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 def tibia_data_repository(version):
     if version == 854:
-        native.new_http_archive(
+        http_archive(
             name = "tibia854",
             url = (
                 "https://remeresmapeditor.com/rmedl.php?file=tibia854.tgz&" +
@@ -18,7 +20,7 @@ def tibia_data_repository(version):
         )
     else:
         print("Unknown Tibia version; downloading without sha256 check")
-        native.new_http_archive(
+        http_archive(
             name = "tibia%d" % version,
             url = (
                 "https://remeresmapeditor.com/rmedl.php?file=tibia%d.tgz&" +
