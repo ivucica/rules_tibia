@@ -8,7 +8,7 @@ def tibia_data_repository(version):
         http_archive(
             name = "tibia854",
             url = (
-                "https://remeresmapeditor.com/rmedl.php?file=tibia854.tgz&" +
+                "https://badc0de.net/UNSTABLE_TEMPORARY_URL/tibia854.tgz?" +
                 "agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
             ),
             sha256 = "3d897c233226586d86f5a33941ac3b62b3aa001b8e563c574a4a860320d7a865",
