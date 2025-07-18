@@ -80,10 +80,6 @@ def tibia_data_repository(version):
             "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia%d.tgz?" +
             "agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
         ) % version,
-        (
-            "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia%d.tgz?" +
-            "agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
-        ) % version,
     ]
     if version in KNOWN_CIDS:
         cid = KNOWN_CIDS[version]
