@@ -3,6 +3,10 @@
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+# This is a magic string expanded by `git archive`, as set by `.gitattributes`
+# See https://git-scm.com/docs/git-archive/2.29.0#Documentation/git-archive.txt-export-subst
+_VERSION_PRIVATE = "$Format:%(describe:tags=true)$"
+
 KNOWN_VERSIONS = {
     790: "f78855ec906f163b4e6e3a12d463e781f010b2d6df0ee58dde9926b2a1e8274c",
     791: "c80674b773cbb4bcf0410f1876ca4ebe0f56724fc08cde0da8b935222d77d63f",
