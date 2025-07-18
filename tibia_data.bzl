@@ -105,8 +105,9 @@ def tibia_data_repository(version):
         sha256 = sha256,
         type = "tar.gz",
         strip_prefix = "Tibia/",
-        build_file_content = (
-            "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
-        )
+        build_file_content = "\n".join([
+            "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])",
+            "filegroup(name='data', visibility=['//visibility:public'], data=['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])",
+        ])
     )
 
