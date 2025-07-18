@@ -1,4 +1,79 @@
 # -*- mode: python; -*-
 # vim: set syntax=python:
 
-# Empty file, present so that Bazel would identify this as a package.
+# This file would need to be present even if empty, so that Bazel would
+# identify this as a package.
+#
+# We can use it for some tests, however.
+
+load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load(":tibia_data.bzl", "KNOWN_VERSIONS", "KNOWN_MIRRORS", "KNOWN_CIDS")
+
+# Using KNOWN_VERSIONS to get all intended versions.
+# Using KNOWN_MIRRORS for those versions that are more likely to be available.
+
+
+[py_binary(
+    name = "verify%d" % VER,
+    main = "verify.py",
+    srcs = ["verify.py"],
+    deps = [
+        ":verify_lib",
+        "@io_abseil_py//absl:app",
+        "@rules_python//python/runfiles",
+    ],
+    data = [
+        "@tibia%d//:data" % VER,
+    ],
+) for VER in KNOWN_VERSIONS.keys()]
+
+
+[py_test(
+    name = "verify%d_test" % VER,
+    main = "verify_test.py",
+    srcs = ["verify_test.py"],
+    deps = [
+        ":verify_lib",
+	"@io_abseil_py//absl/testing:absltest",
+    ],
+    data = [
+        "@tibia%d//:data" % VER,
+    ],
+) for VER in KNOWN_VERSIONS.keys()]
+
+alias(
+    name = "verify",
+    actual = "verify854",
+)
+
+
+genrule(
+    name = "verify_all_gen",
+    outs = ["verify_all.sh"],
+    cmd = "\n".join([
+	 "cat '$(location :runfiles_prologue.bash)' >> $@",
+         "",
+    ] + ["echo '$$(rlocation \"rules_tibia/verify%d\")' %d >> $@" % (VER, VER) for VER in KNOWN_MIRRORS.keys()]),
+    tools = [":runfiles_prologue.bash"],  # Reall not run as a tool, just used for copy.
+    # This would be needed if we could use $(location ...), but we have to use runtime data due to how sh_binary() works.
+    # tools = [":verify%d" % VER for VER in KNOWN_MIRRORS.keys()],
+)
+
+
+sh_binary(
+    name = "verify_all",
+    srcs = [":verify_all.sh"],
+    data = ["verify%d" % VER for VER in KNOWN_MIRRORS.keys()],
+    deps = ["@bazel_tools//tools/bash/runfiles"],
+)
+
+
+py_library(
+    name = "verify_lib",
+    srcs = ["verify.py"],
+    deps = [
+        "@io_abseil_py//absl:app",
+        "@rules_python//python/runfiles",
+    ],
+)
