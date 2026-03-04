@@ -52,6 +52,17 @@ def tibia_data_repositories():
         tibia_data_repository(version)
 
 
+def _tibia_data_ext_impl(_module_ctx):
+    # All known tibia repos are created unconditionally, with no module tags
+    # to process; the module context is not needed.
+    tibia_data_repositories()
+
+
+tibia_data_ext = module_extension(
+    implementation = _tibia_data_ext_impl,
+)
+
+
 def tibia_data_repository(version):
     """Create a Bazel repo from a downloaded Linux version's tarball.
 

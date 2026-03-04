@@ -1,0 +1,8 @@
+# -*- mode: python; -*-
+# vim: set syntax=python:
+#
+# This file intentionally left empty.
+#
+# When this file is present, Bazel 7+ in bzlmod mode uses this file instead
+# of WORKSPACE, so all dependency resolution is done via MODULE.bazel.
+# The legacy WORKSPACE file is kept for compatibility with Bazel 6.x.
