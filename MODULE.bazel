@@ -1,0 +1,51 @@
+# -*- mode: python; -*-
+# vim: set syntax=python:
+
+module(
+    name = "rules_tibia",
+    version = "0.0.0",
+)
+
+bazel_dep(name = "rules_python", version = "1.4.1")
+bazel_dep(name = "rules_shell", version = "0.2.0")
+
+# abseil-py is not on the Bazel Central Registry; use http_archive directly.
+_http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+_http_archive(
+    name = "io_abseil_py",
+    strip_prefix = "abseil-py-2.3.1",
+    url = "https://github.com/abseil/abseil-py/archive/v2.3.1.tar.gz",
+    sha256 = "cc6d8764c0bdd76cc1308efdb75035d021447974271a83effa7f2616544ee3da",
+)
+
+# Tibia data repositories, one per game client version.
+tibia_ext = use_extension("//:tibia_data.bzl", "tibia_data_ext")
+use_repo(
+    tibia_ext,
+    "tibia790",
+    "tibia791",
+    "tibia792",
+    "tibia800",
+    "tibia810",
+    "tibia811",
+    "tibia822",
+    "tibia830",
+    "tibia831",
+    "tibia840",
+    "tibia841",
+    "tibia842",
+    "tibia850",
+    "tibia852",
+    "tibia853",
+    "tibia854",
+    "tibia860",
+    "tibia861",
+    "tibia900",
+    "tibia910",
+    "tibia920",
+    "tibia931",
+    "tibia946",
+    "tibia954",
+    "tibia960",
+)
